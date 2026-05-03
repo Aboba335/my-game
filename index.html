@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Neon Sprint — Simple Racing Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="game" width="800" height="600" aria-label="Racing game"></canvas>
+
+  <div class="shell">
+    <header class="hud">
+      <div class="hud-location">
+        <span class="label">Локация</span>
+        <strong id="locationName">Пригород</strong>
+      </div>
+      <div class="hud-score"><span class="label">Счёт</span> <strong id="score">0</strong></div>
+      <div class="speedo-block" aria-hidden="true">
+        <div class="speedo-label">Спидометр</div>
+        <div class="speedo">
+          <div class="speedo-dial">
+            <div class="speedo-ticks"></div>
+            <div id="needle" class="needle"></div>
+          </div>
+          <div class="speedo-readout">
+            <span id="kmhValue">0</span><span class="unit">км/ч</span>
+          </div>
+          <div id="turboBadge" class="turbo-badge">ТУРБО</div>
+        </div>
+      </div>
+      <p class="hint">Каждые 1000 очков — новая локация · полный экран · газ WS · пробел турбо</p>
+    </header>
+
+    <div id="overlay" class="overlay hidden">
+      <div class="card">
+        <h1 id="overlayTitle">Neon Sprint</h1>
+        <p id="overlayMsg">Газ, тормоз, турбо на пробеле. Новый район каждые 1000 очков.</p>
+        <button type="button" id="startBtn">Старт</button>
+      </div>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>
