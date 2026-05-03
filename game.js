@@ -13,6 +13,7 @@
   const overlayTitle = document.getElementById("overlayTitle");
   const overlayMsg = document.getElementById("overlayMsg");
   const startBtn = document.getElementById("startBtn");
+  const touchButtons = Array.from(document.querySelectorAll(".touch-btn"));
 
   /** Локация меняется каждые STEP очков (цикл по списку). */
   const LOCATION_STEP = 1000;
@@ -239,6 +240,7 @@
     speedMul = 1;
     score = 0;
     keys.clear();
+    clearTouchButtonsVisual();
     prevLocationIdx = -1;
     player.x = (laneCenterX(2) + laneCenterX(3)) / 2;
     player.y = PLAYER_Y_MAX - 52;
@@ -741,7 +743,50 @@
     applyDirectionKey(e, false);
   }
 
-  window.addEventListener("blur", () => keys.clear());
+  function setTouchKey(btn, down) {
+    const key = btn.dataset.key;
+    if (!key) return;
+    if (down) keys.add(key);
+    else keys.delete(key);
+    btn.classList.toggle("touch-btn--active", down);
+  }
+
+  function clearTouchButtonsVisual() {
+    for (const btn of touchButtons) {
+      btn.classList.remove("touch-btn--active");
+    }
+  }
+
+  function bindTouchControls() {
+    for (const btn of touchButtons) {
+      btn.addEventListener("contextmenu", (e) => e.preventDefault());
+
+      btn.addEventListener("pointerdown", (e) => {
+        if (typeof btn.setPointerCapture === "function") {
+          try {
+            btn.setPointerCapture(e.pointerId);
+          } catch (_) {}
+        }
+        setTouchKey(btn, true);
+        e.preventDefault();
+      });
+
+      btn.addEventListener("pointerup", (e) => {
+        setTouchKey(btn, false);
+        e.preventDefault();
+      });
+      btn.addEventListener("pointercancel", () => setTouchKey(btn, false));
+      btn.addEventListener("pointerleave", () => {
+        if (btn.matches(":active")) return;
+        setTouchKey(btn, false);
+      });
+    }
+  }
+
+  window.addEventListener("blur", () => {
+    keys.clear();
+    clearTouchButtonsVisual();
+  });
 
   let resizeScheduled = false;
   window.addEventListener("resize", () => {
@@ -762,13 +807,14 @@
 
   window.addEventListener("keydown", onKeyDown);
   window.addEventListener("keyup", onKeyUp);
+  bindTouchControls();
 
   resizeCanvas();
   syncLocationHud(0);
 
   showOverlay(
     "Neon Sprint",
-    "Полный экран подстраивается под окно. Каждые 1000 очков — новая локация (тоннель, Нью-Йорк и др.). Четыре полосы: слева встречка, справа попутный ход.",
+    "Полный экран подстраивается под окно. Клавиатура и экранные кнопки работают параллельно. Каждые 1000 очков — новая локация (тоннель, Нью-Йорк и др.).",
     "Старт"
   );
 

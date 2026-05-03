@@ -29,15 +29,23 @@
           <div id="turboBadge" class="turbo-badge">ТУРБО</div>
         </div>
       </div>
-      <p class="hint">Каждые 1000 очков — новая локация · полный экран · газ WS · пробел турбо</p>
+      <p class="hint">Каждые 1000 очков — новая локация · клавиатура и экранные кнопки · пробел/кнопка TURBO</p>
     </header>
 
     <div id="overlay" class="overlay hidden">
       <div class="card">
         <h1 id="overlayTitle">Neon Sprint</h1>
-        <p id="overlayMsg">Газ, тормоз, турбо на пробеле. Новый район каждые 1000 очков.</p>
+        <p id="overlayMsg">Газ, тормоз и турбо работают с клавиатуры и с экранных кнопок. Новый район каждые 1000 очков.</p>
         <button type="button" id="startBtn">Старт</button>
       </div>
+    </div>
+
+    <div class="touch-controls" aria-label="Экранное управление">
+      <button type="button" class="touch-btn touch-btn--dir" data-key="left" aria-label="Влево">◀</button>
+      <button type="button" class="touch-btn touch-btn--dir" data-key="up" aria-label="Газ">▲</button>
+      <button type="button" class="touch-btn touch-btn--dir" data-key="down" aria-label="Тормоз">▼</button>
+      <button type="button" class="touch-btn touch-btn--dir" data-key="right" aria-label="Вправо">▶</button>
+      <button type="button" class="touch-btn touch-btn--turbo" data-key="turbo" aria-label="Турбо">TURBO</button>
     </div>
   </div>
   <script src="game.js"></script>
